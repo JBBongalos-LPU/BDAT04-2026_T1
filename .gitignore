@@ -1,0 +1,13 @@
+# Raw case data lives on Google Drive, not here
+*.csv
+*.xlsx
+!**/b*/*.xlsx
+
+# OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temp / lock files
+~$*
+*.tmp
