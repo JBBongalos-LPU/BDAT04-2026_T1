@@ -4,7 +4,7 @@ One entry per milestone. An honest log is never penalised; an absent or false on
 If you used no AI on a milestone, write "No AI use." — that is a valid entry.
 
 | Milestone | Date | Tool | Purpose | What it produced | How I verified or changed it | Tier |
-|---klsdjflksdfjkslfds|---|---|---|---|---|---|
+|---|---|---|---|---|---|---|
 | B1 | | | | | | |
 | B2 | | | | | | |
 | B3 | | | | | | |
