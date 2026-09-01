@@ -1,0 +1,90 @@
+createOrReplace
+
+	table tblSales
+		lineageTag: ace28a2e-6109-4fb2-8185-23a8a5d97f83
+
+		column SaleID
+			dataType: string
+			lineageTag: c049dcc3-2dc8-4171-a84b-ff69b9138afe
+			summarizeBy: none
+			sourceColumn: SaleID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: string
+			lineageTag: 6186b1e1-ed3d-4a62-bbcb-10314e4564c4
+			summarizeBy: none
+			sourceColumn: Date
+
+			annotation SummarizationSetBy = Automatic
+
+		column BranchID
+			dataType: string
+			lineageTag: 28864207-01c3-4d0f-bb72-1d073bfe408e
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 79926c21-6935-4b92-bfcd-41c6e71e1ba4
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column CustomerID
+			dataType: string
+			lineageTag: 6ee06732-c785-4a58-8153-37c0b86237cf
+			summarizeBy: none
+			sourceColumn: CustomerID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Quantity
+			dataType: string
+			lineageTag: 7fe97b19-bdd4-43e3-8853-b8fc7872c309
+			summarizeBy: none
+			sourceColumn: Quantity
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: string
+			lineageTag: fecbb043-5eea-44e3-bc91-e14f6e427f6a
+			summarizeBy: none
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+		column Amount
+			dataType: string
+			lineageTag: 6495309a-a37a-4a38-bbda-661fd6e53711
+			summarizeBy: none
+			sourceColumn: Amount
+
+			annotation SummarizationSetBy = Automatic
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: fa97e5e9-7ae4-4d00-b8ee-969ec02831ba
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		partition tblSales = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(File.Contents("C:\Users\anthonne lopez\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "tblSales", Kind = "Table"]}[Data]
+					in
+					    #"Navigation 1"
+
+		annotation PBI_ResultType = Table
+
+		annotation PBI_NavigationStepName = Navigation
+
