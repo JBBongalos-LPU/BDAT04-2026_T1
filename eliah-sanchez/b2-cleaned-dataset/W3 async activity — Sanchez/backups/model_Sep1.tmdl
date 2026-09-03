@@ -1,0 +1,571 @@
+createOrReplace
+
+	table 'tblBranches (2)'
+		lineageTag: b0d2c774-1845-40b0-a59a-17a6b1ae94c6
+
+		column BranchID
+			dataType: string
+			lineageTag: e0c9fa06-769e-49a0-baff-cec10da43463
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column BranchName
+			dataType: string
+			lineageTag: 7b82f01c-0d55-478e-aa63-a67efe0a9029
+			summarizeBy: none
+			sourceColumn: BranchName
+
+			annotation SummarizationSetBy = Automatic
+
+		column City
+			dataType: string
+			lineageTag: 1190034e-44b6-4423-b25e-8094c389a49e
+			summarizeBy: none
+			sourceColumn: City
+
+			annotation SummarizationSetBy = Automatic
+
+		column Province
+			dataType: string
+			lineageTag: 31239d26-c037-4485-b718-9ef33afb205f
+			summarizeBy: none
+			sourceColumn: Province
+
+			annotation SummarizationSetBy = Automatic
+
+		column OpenedDate
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: b7099df7-d4bd-4458-a08f-91e10c17e3f6
+			summarizeBy: none
+			sourceColumn: OpenedDate
+
+			variation Variation
+				isDefault
+				relationship: d2bd5570-8eaf-41f4-909b-4ed97d9b4a4d
+				defaultHierarchy: LocalDateTable_a865e41c-488b-4dd2-86db-e55ecf8ebb51.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		partition 'tblBranches (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblBranches_Table = Source{[Item="tblBranches",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblBranches_Table,{{"BranchID", type text}, {"BranchName", type text}, {"City", type text}, {"Province", type text}, {"OpenedDate", type date}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblCalendar (2)'
+		lineageTag: 0060f473-dfd0-476a-ae84-b8bc740ff3f7
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: c6ee4e49-713b-4932-8e43-84fce639d405
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: b1953b6a-2cd3-4e21-9aa4-2005574d7911
+				defaultHierarchy: LocalDateTable_f6f3c022-202c-4451-acd0-2808d58da585.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column Year
+			dataType: int64
+			formatString: 0
+			lineageTag: e69a3569-dce8-4ef4-999d-20c90632ec6c
+			summarizeBy: sum
+			sourceColumn: Year
+
+			annotation SummarizationSetBy = Automatic
+
+		column Quarter
+			dataType: string
+			lineageTag: c11444df-8d59-4d6e-958d-ec24b3962e49
+			summarizeBy: none
+			sourceColumn: Quarter
+
+			annotation SummarizationSetBy = Automatic
+
+		column MonthNo
+			dataType: int64
+			formatString: 0
+			lineageTag: 37a35fd8-cc9b-4dc5-8852-bed656bf20b0
+			summarizeBy: sum
+			sourceColumn: MonthNo
+
+			annotation SummarizationSetBy = Automatic
+
+		column MonthName
+			dataType: string
+			lineageTag: ab31df5d-d1d8-46eb-ace8-2b601fb4937d
+			summarizeBy: none
+			sourceColumn: MonthName
+
+			annotation SummarizationSetBy = Automatic
+
+		column YearMonth
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: b251049d-153b-4ee6-8621-e55faa1b9c20
+			summarizeBy: none
+			sourceColumn: YearMonth
+
+			variation Variation
+				isDefault
+				relationship: f4593a0a-61ba-4f86-b651-eb0ce7ac7900
+				defaultHierarchy: LocalDateTable_76c7b065-2d9b-49ab-bb7e-c54dccc2f904.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column Day
+			dataType: int64
+			formatString: 0
+			lineageTag: a4747264-54b4-4fad-bbf4-888bb1a8ee59
+			summarizeBy: sum
+			sourceColumn: Day
+
+			annotation SummarizationSetBy = Automatic
+
+		column DayName
+			dataType: string
+			lineageTag: fdd7d428-23a2-4993-b3ff-fa0a0bd622bf
+			summarizeBy: none
+			sourceColumn: DayName
+
+			annotation SummarizationSetBy = Automatic
+
+		column DayType
+			dataType: string
+			lineageTag: f63c51e4-f804-4c6d-babe-95c83f65dfeb
+			summarizeBy: none
+			sourceColumn: DayType
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'tblCalendar (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblCalendar_Table = Source{[Item="tblCalendar",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblCalendar_Table,{{"Date", type date}, {"Year", Int64.Type}, {"Quarter", type text}, {"MonthNo", Int64.Type}, {"MonthName", type text}, {"YearMonth", type date}, {"Day", Int64.Type}, {"DayName", type text}, {"DayType", type text}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblCustomers (2)'
+		lineageTag: 6a0197eb-36b8-4a4a-896d-06496e131a5d
+
+		column CustomerID
+			dataType: string
+			lineageTag: 3b80028e-2c16-4ea6-972a-6242ab90b684
+			summarizeBy: none
+			sourceColumn: CustomerID
+
+			annotation SummarizationSetBy = Automatic
+
+		column CustomerName
+			dataType: string
+			lineageTag: 6e2030bd-f393-4484-82b4-24b93f57e675
+			summarizeBy: none
+			sourceColumn: CustomerName
+
+			annotation SummarizationSetBy = Automatic
+
+		column Email
+			dataType: string
+			lineageTag: 96b7aec1-d97a-472f-b343-0b0f73b758db
+			summarizeBy: none
+			sourceColumn: Email
+
+			annotation SummarizationSetBy = Automatic
+
+		column Tier
+			dataType: string
+			lineageTag: 7584a289-58f8-4b3b-b34d-dca549aeec19
+			summarizeBy: none
+			sourceColumn: Tier
+
+			annotation SummarizationSetBy = Automatic
+
+		column City
+			dataType: string
+			lineageTag: 558df0fd-8fc0-42f7-aac4-c39a6acee43b
+			summarizeBy: none
+			sourceColumn: City
+
+			annotation SummarizationSetBy = Automatic
+
+		column JoinedDate
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 17491bd6-a123-4d71-a2b8-324ced7fad44
+			summarizeBy: none
+			sourceColumn: JoinedDate
+
+			variation Variation
+				isDefault
+				relationship: 8e3728f1-b240-4647-bfb6-050165005b8b
+				defaultHierarchy: LocalDateTable_0f6dc605-772b-478c-8b38-d1305d5b7323.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		partition 'tblCustomers (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblCustomers_Table = Source{[Item="tblCustomers",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblCustomers_Table,{{"CustomerID", type text}, {"CustomerName", type text}, {"Email", type text}, {"Tier", type text}, {"City", type text}, {"JoinedDate", type date}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblEmployees (2)'
+		lineageTag: b73c61e5-eeba-4fc0-93d0-8e1b4cfd6b95
+
+		column EmployeeID
+			dataType: string
+			lineageTag: cf73d9f2-74b5-4a11-81d2-8cf9cf37b1e0
+			summarizeBy: none
+			sourceColumn: EmployeeID
+
+			annotation SummarizationSetBy = Automatic
+
+		column EmployeeName
+			dataType: string
+			lineageTag: cbf92e2a-82e3-453d-9b09-a9e6f3258bc5
+			summarizeBy: none
+			sourceColumn: EmployeeName
+
+			annotation SummarizationSetBy = Automatic
+
+		column BranchID
+			dataType: string
+			lineageTag: 67db9798-1348-46a5-b598-b8afb86a6fe1
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Role
+			dataType: string
+			lineageTag: 45f7e718-1c3f-4db4-9001-068d88f90433
+			summarizeBy: none
+			sourceColumn: Role
+
+			annotation SummarizationSetBy = Automatic
+
+		column HireDate
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 525fdebc-dafe-4b63-9aa5-a9bb8d652aa0
+			summarizeBy: none
+			sourceColumn: HireDate
+
+			variation Variation
+				isDefault
+				relationship: a188a32b-2276-4cb2-bb2d-c0a9c710f6d4
+				defaultHierarchy: LocalDateTable_83a89c05-fe63-4d04-a656-56f94510f771.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column DailyRate
+			dataType: int64
+			formatString: 0
+			lineageTag: d27b12c8-eb8e-46b7-93e2-09f03a660d23
+			summarizeBy: sum
+			sourceColumn: DailyRate
+
+			annotation SummarizationSetBy = Automatic
+
+		column EmploymentStatus
+			dataType: string
+			lineageTag: d979b7be-52c1-457e-bbca-ff77805879f1
+			summarizeBy: none
+			sourceColumn: EmploymentStatus
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'tblEmployees (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblEmployees_Table = Source{[Item="tblEmployees",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblEmployees_Table,{{"EmployeeID", type text}, {"EmployeeName", type text}, {"BranchID", type text}, {"Role", type text}, {"HireDate", type date}, {"DailyRate", Int64.Type}, {"EmploymentStatus", type text}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblInventory (2)'
+		lineageTag: 2b1e1c3a-66d5-4b3f-b7b3-5fad8345dd1a
+
+		column MovementID
+			dataType: string
+			lineageTag: 824dbcba-53d3-4e9b-affd-c6d7c93bf16a
+			summarizeBy: none
+			sourceColumn: MovementID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 287a9cec-097f-49a4-b706-f5d668c3acb0
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 9f52d736-07e0-4265-a5d8-c1f957e979fb
+				defaultHierarchy: LocalDateTable_e48bb0b5-1abf-4250-827a-867dde8de113.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: 23fbcedf-951a-4334-88dc-d5e51d35b205
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 7a6bdceb-4de3-4f63-829f-fbf8d2c77472
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column MovementType
+			dataType: string
+			lineageTag: 6dc45e7e-a34f-4aeb-a776-cdb971ecfa0e
+			summarizeBy: none
+			sourceColumn: MovementType
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityMoved
+			dataType: int64
+			formatString: 0
+			lineageTag: 5b77175b-e45e-455e-be72-b1ab5a171679
+			summarizeBy: sum
+			sourceColumn: QuantityMoved
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'tblInventory (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblInventory_Table = Source{[Item="tblInventory",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblInventory_Table,{{"MovementID", type text}, {"Date", type date}, {"BranchID", type text}, {"ProductID", type text}, {"MovementType", type text}, {"QuantityMoved", Int64.Type}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblProducts (2)'
+		lineageTag: e8c6e87c-5641-443a-92db-159776d62697
+
+		column ProductID
+			dataType: string
+			lineageTag: 46693795-bae4-483a-8ab1-3daa984d4801
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductName
+			dataType: string
+			lineageTag: eefaa99a-54d7-43fa-a9a3-79380399c7f8
+			summarizeBy: none
+			sourceColumn: ProductName
+
+			annotation SummarizationSetBy = Automatic
+
+		column Category
+			dataType: string
+			lineageTag: 8e448b74-4fbe-4649-9069-1a18794201ff
+			summarizeBy: none
+			sourceColumn: Category
+
+			annotation SummarizationSetBy = Automatic
+
+		column ListPrice
+			dataType: int64
+			formatString: 0
+			lineageTag: 4adb6639-b0a3-4b26-9842-32fc3a126054
+			summarizeBy: sum
+			sourceColumn: ListPrice
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitCost
+			dataType: int64
+			formatString: 0
+			lineageTag: 08b7a6e5-2ada-4460-b45d-1efffe4add9f
+			summarizeBy: sum
+			sourceColumn: UnitCost
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'tblProducts (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblProducts_Table = Source{[Item="tblProducts",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblProducts_Table,{{"ProductID", type text}, {"ProductName", type text}, {"Category", type text}, {"ListPrice", Int64.Type}, {"UnitCost", Int64.Type}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_ResultType = Table
+
+
+createOrReplace
+
+	table 'tblSales (2)'
+		lineageTag: 9d24d30b-f9a3-4b2d-9219-c4117c349a1c
+
+		column SaleID
+			dataType: int64
+			formatString: 0
+			lineageTag: 18a5694a-73b6-49a3-8718-8394c79f730c
+			summarizeBy: count
+			sourceColumn: SaleID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 4b745de2-5161-45aa-aa7a-8a318a860d9c
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 5419e1dd-2f36-49d3-9bc0-d1678c1bbc59
+				defaultHierarchy: LocalDateTable_205d7754-ae3a-4471-8e0b-65635fd05b29.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: 9dd458a9-3898-41db-ae45-6b982d8b36da
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 65c8098d-5b19-41b5-9a2c-7c1458dfa5a1
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column CustomerID
+			dataType: string
+			lineageTag: 3adfdb4b-8674-4906-9b20-2cc2db5d8bb9
+			summarizeBy: none
+			sourceColumn: CustomerID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Quantity
+			dataType: int64
+			formatString: 0
+			lineageTag: 37fc9a24-8fcd-4de5-8ea2-1a74903d5d2a
+			summarizeBy: sum
+			sourceColumn: Quantity
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: int64
+			formatString: 0
+			lineageTag: a9f8def6-7af4-4041-b845-41c15ee17aa6
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+		column Amount
+			dataType: double
+			lineageTag: 78d05c6f-6e23-4a52-891a-3f30ff5da9e0
+			summarizeBy: sum
+			sourceColumn: Amount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: ec56f777-7b31-45a9-b8a5-ef12450a3d30
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		partition 'tblSales (2)' = m
+			mode: import
+			source =
+					let
+					    Source = Excel.Workbook(File.Contents("C:\Users\User\Downloads\KapeTayo_IntegratedCase.xlsx"), null, true),
+					    tblSales_Table = Source{[Item="tblSales",Kind="Table"]}[Data],
+					    #"Changed Type" = Table.TransformColumnTypes(tblSales_Table,{{"SaleID", Int64.Type}, {"Date", type date}, {"BranchID", type text}, {"ProductID", type text}, {"CustomerID", type text}, {"Quantity", Int64.Type}, {"UnitPrice", Int64.Type}, {"Amount", type number}, {"PaymentMethod", type text}})
+					in
+					    #"Changed Type"
+
+		annotation PBI_NavigationStepName = Navigation
+
+		annotation PBI_ResultType = Table
+
