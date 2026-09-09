@@ -1,0 +1,43 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 \
+1a. Decision: Renamed the PaymentType in the tblSalesJul2026 to PaymentMethod to append it to tblSales.\
+1b. Reason: When I initially append both it created a new column full of nulls, But both columns have the same exact transaction fact.\
+1c. Discarded: I discard the PaymentType so that it will not create new column when appended to tblSales and joined with the PaymentMethod.\
+\
+2a. Decision: Keep the 5,039 null values in the CustomerID column.\
+2b. Reason: blank in the CustomerID column is just a walk-in customer who never joined the loyalty programme and it is a legitimate transaction.\
+2c. Discarded: None as deleting these will remove the half of the business revenue.\
+\
+3a. Decision: the decision is to FIX and replacing the typos in tblSales to match the directory in tblBranch.\
+3b. Reason: The value is a recognisable typo for the branch and fixing it will match in the directory.\
+3c. Discarded: The typo in the tblSales such as the lowercased, the hypen and the whitespaces.\
+\
+4a. Decision: To ACCEPT the branch B07, the new July 2026 calendar dates, new July CustomerIDs from July.\
+4b. Reason: Then values are real branch and transactions, it just that the reference table are incomplete and not updated yet.\
+4c. Discarded: None as they are real branch and transactions the reference table just need to be updated.\
+\
+5a. Decision: I will still retain the 9 sales of the P99 product and also the 12 null dates in the tblSales.\
+5b. Reason: I can\'92t tell what is that P99 product and the dates are and guessing would be inventing data.\
+5c. Discarded: None as I will escalate it and know what it were.\
+\
+6a. Decision: Created a parameter and named SourcePath to hold the link and updated every table source to use it.\
+6b. Reason: So that when other people run this they only need to change the path once and the tables will auto update.\
+6c. Discarded: The hassle to change every links in each query step.\
+\
+7a. Decision: As I just come across the meaning of query folding I learned that query folding does not occur in our pipeline.\
+7b. Reason: Because it tells that query folding only works when the source system has an active database engine like SQL that can execute transformation commands at the server level.\
+7c. Discarded: Because we are only getting the data from excel with the web links so there is no database engine at the source.\
+\
+8a. Decision: I executed the full refresh after doing the adjustments in the source paths.\
+8b. Reason: To know that it will not throw an error so we do this to validate the pipeline.\
+8c. None.\
+\
+\
+\
+}

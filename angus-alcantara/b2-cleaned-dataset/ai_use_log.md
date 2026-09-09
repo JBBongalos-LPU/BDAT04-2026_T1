@@ -7,6 +7,7 @@ If you used no AI on a milestone, write "No AI use." — that is a valid entry.
 |---|---|---|---|---|---|---|
 | B1 | | | | | | |
 | B2 | 2026-09-02 | ChatGPT | To understand why Power Query didn't throw an error for commas, and to verify how to back up TMDL scripts. | An explanation of browser locale settings parsing commas automatically, and instructions to copy all 7 TMDL scripts individually. | Verified the locale behavior in my own Power Query screen and manually copied the 7 scripts into my text editor. | 2 |
+| B2 | 2026-09-09 | ChatGPT | To understand what query folding actually means and why I had to do the SourcePath parameter. | An explanation using a restaurant analogy, plus a summary of why flat Excel files don't fold | I read the analogy to make sure I actually understood the concept | 2 |
 | B3 | | | | | | |
 | B4 | | | | | | |
 | B5 | | | | | | |
