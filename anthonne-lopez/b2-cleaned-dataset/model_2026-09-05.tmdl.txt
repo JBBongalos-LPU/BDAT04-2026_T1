@@ -1,0 +1,104 @@
+createOrReplace
+
+	table tblSalesJul2026
+		lineageTag: 92896b25-df47-428e-98a2-28863e88b4f0
+
+		column SaleID
+			dataType: int64
+			formatString: 0
+			lineageTag: e0df802d-55e8-420a-b7ed-8c94c5510a09
+			summarizeBy: count
+			sourceColumn: SaleID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 23c1b184-6ff4-4332-ad4f-54023eab9d73
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 0b3b6ab3-a640-45bb-a7ae-28dee36f76a5
+				defaultHierarchy: LocalDateTable_9fbbec04-e26a-4ed2-ab72-42c7069ddfc5.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: ec8c07bd-5bfd-43f8-bd95-7d05f608c62f
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 46f85e4d-da6d-42e4-9852-5fff1a9743e2
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column CustomerID
+			dataType: string
+			lineageTag: 517bb366-dd38-4872-bf43-6cb2320bd1fa
+			summarizeBy: none
+			sourceColumn: CustomerID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Quantity
+			dataType: int64
+			formatString: 0
+			lineageTag: 720d49b9-1697-43ca-abf7-d32147180747
+			summarizeBy: sum
+			sourceColumn: Quantity
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: int64
+			formatString: 0
+			lineageTag: 637dde16-9fba-4b47-8a8b-3c9baee25918
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+		column Amount
+			dataType: int64
+			formatString: 0
+			lineageTag: 8549f653-1190-49cc-956a-d2629fa74764
+			summarizeBy: sum
+			sourceColumn: Amount
+
+			annotation SummarizationSetBy = Automatic
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: 81185e0c-3f89-455a-b4b2-1f18dd8def05
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		partition tblSalesJul2026 = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(File.Contents(SourcePath & "KapeTayo_Sales_Jul2026.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "tblSalesJul2026", Kind = "Table"]}[Data],
+					  #"Changed column type" = Table.TransformColumnTypes(#"Navigation 1", {{"SaleID", Int64.Type}, {"Date", type date}, {"BranchID", type text}, {"ProductID", type text}, {"CustomerID", type text}, {"Quantity", Int64.Type}, {"UnitPrice", Int64.Type}, {"Amount", Int64.Type}, {"PaymentType", type text}}, "en-US"),
+					    #"Renamed to match tblSales" = Table.RenameColumns(#"Changed column type",{{"PaymentType", "PaymentMethod"}})
+					in
+					  #"Renamed to match tblSales"
+
+		annotation PBI_NavigationStepName = Navigation
+
+		annotation PBI_ResultType = Table
+
