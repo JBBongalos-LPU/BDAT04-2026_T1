@@ -5,15 +5,6 @@
 
 One subfolder per student. Submit only into your own.
 
-Test I draft and Test II task sheets are collected in the room.
-The polished essay and prompt log are due **Sunday 12 September, 12:00 NN**.
-
-# Preliminary Assessment — Week 5
-
-**BDAT04 Fundamentals of Data Warehousing · Saturday 12 September 2026**
-
-One subfolder per student. Submit only into your own.
-
 Test I draft, Test II task sheets and the TMDL export are handed in before you leave the room.
 The polished essay and prompt log are due **today, 12 September, 12:00 NN**.
 
@@ -52,3 +43,4 @@ contradicts is marked against the export.
 **Format → Make Plain Text (⇧⌘T)** before saving, or the file saves as RTF and cannot be read.
 
 Nothing else goes in this folder.
+
