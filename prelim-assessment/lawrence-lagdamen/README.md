@@ -1,3 +1,4 @@
+
 # Preliminary Assessment — Week 5
 
 **BDAT04 Fundamentals of Data Warehousing · Saturday 12 September 2026**
@@ -42,3 +43,4 @@ contradicts is marked against the export.
 **Format → Make Plain Text (⇧⌘T)** before saving, or the file saves as RTF and cannot be read.
 
 Nothing else goes in this folder.
+
