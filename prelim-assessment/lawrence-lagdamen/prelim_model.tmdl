@@ -1,0 +1,764 @@
+createOrReplace
+
+	table Branches
+		lineageTag: f1abd10c-f581-46eb-a298-2dd36a4637c4
+
+		column BranchID
+			dataType: string
+			lineageTag: b1d8e392-e0e4-4ac9-9eea-76440130165d
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column BranchName
+			dataType: string
+			lineageTag: ae43175e-ca5d-4c75-a3e2-2952692f614c
+			summarizeBy: none
+			sourceColumn: BranchName
+
+			annotation SummarizationSetBy = Automatic
+
+		column City
+			dataType: string
+			lineageTag: f5d78e32-2cfd-44f3-911e-1540440f908f
+			summarizeBy: none
+			sourceColumn: City
+
+			annotation SummarizationSetBy = Automatic
+
+		column OpenedDate
+			dataType: int64
+			formatString: 0
+			lineageTag: f8b6f356-a893-44f2-8038-33b6166e59c4
+			summarizeBy: sum
+			sourceColumn: OpenedDate
+
+			annotation SummarizationSetBy = Automatic
+
+		column FloorArea
+			dataType: int64
+			formatString: 0
+			lineageTag: 0f821771-48f6-44cc-adc9-21cd5127cef8
+			summarizeBy: sum
+			sourceColumn: FloorArea
+
+			annotation SummarizationSetBy = Automatic
+
+		partition Branches = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(Web.Contents("https://lpulagunaeduph-my.sharepoint.com/personal/lawrencelagdamen_lpulaguna_edu_ph/Documents/PRELIM%20EXAM/BotikaMaligaya_Branches.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "Branches", Kind = "Sheet"]}[Data],
+					  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+					  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"BranchID", type text}, {"BranchName", type text}, {"City", type text}, {"OpenedDate", Int64.Type}, {"FloorArea", Int64.Type}})
+					in
+					  #"Changed column type"
+
+		annotation PBI_ResultType = Table
+
+	table Calendar
+		lineageTag: ecff4d7e-fe91-4f61-8f7c-82baec12f66e
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 809ae24e-ee48-4fb9-8089-09d42616858c
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 8e61fefd-83ac-4b4a-9e94-c1f67962610e
+				defaultHierarchy: LocalDateTable_02a5f1d3-28d0-49dd-87e8-43684eaaf039.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column Year
+			dataType: int64
+			formatString: 0
+			lineageTag: b9d273fc-4d09-4aa7-8af1-6acced09b6c2
+			summarizeBy: sum
+			sourceColumn: Year
+
+			annotation SummarizationSetBy = Automatic
+
+		column MonthNo
+			dataType: int64
+			formatString: 0
+			lineageTag: 59e419ec-0d10-42a0-8b02-f1b1a2c37906
+			summarizeBy: sum
+			sourceColumn: MonthNo
+
+			annotation SummarizationSetBy = Automatic
+
+		column MonthName
+			dataType: string
+			lineageTag: f705a66a-2723-4e37-9308-a39c9531daae
+			summarizeBy: none
+			sourceColumn: MonthName
+
+			annotation SummarizationSetBy = Automatic
+
+		column YearMonth
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: b88dbf08-64d9-4111-9323-83de4a8b3140
+			summarizeBy: none
+			sourceColumn: YearMonth
+
+			variation Variation
+				isDefault
+				relationship: 75955ae5-9d36-458f-bd6b-ace1b24f5811
+				defaultHierarchy: LocalDateTable_ca36f8a2-09b5-4b1e-823a-5ee7051dcb12.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column DayName
+			dataType: string
+			lineageTag: 51fa36a5-d523-4894-8f05-52569a24c3fb
+			summarizeBy: none
+			sourceColumn: DayName
+
+			annotation SummarizationSetBy = Automatic
+
+		column IsWeekend
+			dataType: string
+			lineageTag: 1cb74edd-7751-459a-bd66-35366dd6cdcc
+			summarizeBy: none
+			sourceColumn: IsWeekend
+
+			annotation SummarizationSetBy = Automatic
+
+		partition Calendar = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(Web.Contents("https://lpulagunaeduph-my.sharepoint.com/personal/lawrencelagdamen_lpulaguna_edu_ph/Documents/PRELIM%20EXAM/BotikaMaligaya_Calendar.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "Calendar", Kind = "Sheet"]}[Data],
+					  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+					  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"Date", Int64.Type}, {"Year", Int64.Type}, {"MonthNo", Int64.Type}, {"MonthName", type text}, {"YearMonth", type date}, {"DayName", type text}, {"IsWeekend", type text}}),
+					  #"Changed column type 1" = Table.TransformColumnTypes(#"Changed column type", {{"Date", type date}})
+					in
+					  #"Changed column type 1"
+
+		annotation PBI_ResultType = Table
+
+	table Merge
+		lineageTag: 581c5990-33f4-480c-97a0-d7e57e348b1c
+
+		column TransactionID
+			dataType: string
+			lineageTag: ee3d1f9b-ed14-4e92-ac31-314903bbab0e
+			summarizeBy: none
+			sourceColumn: TransactionID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 38eb8da0-3848-426a-aa6b-ea083b567610
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: bf44b2bc-70e1-42d5-acf3-4578ebfe3dd0
+				defaultHierarchy: LocalDateTable_115a8258-010b-4fa7-b1c2-dbfdf416fd6c.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: f709f684-d64d-4c06-9a8c-dc7a8c40c434
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 22b60752-77dd-4196-b529-6ce09e12414b
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityDispensed
+			dataType: int64
+			formatString: 0
+			lineageTag: a856f588-7d06-4ca1-8c24-09acdd1ebb8e
+			summarizeBy: sum
+			sourceColumn: QuantityDispensed
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: double
+			lineageTag: be937fd3-cd13-4c68-a102-d443d27567a3
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column TotalAmount
+			dataType: double
+			lineageTag: 0adda76e-0e9d-40e0-aec0-e4dccb48aa4e
+			summarizeBy: sum
+			sourceColumn: TotalAmount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: b589604a-8d60-4b5f-8796-498742668bd1
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		column SeniorCitizenID
+			dataType: string
+			lineageTag: c16e7781-c2e5-4c47-8810-a478de251744
+			summarizeBy: none
+			sourceColumn: SeniorCitizenID
+
+			annotation SummarizationSetBy = Automatic
+
+		column check
+			dataType: double
+			lineageTag: 1283b40f-8e91-4e13-9a6b-225b0dd341c3
+			summarizeBy: sum
+			sourceColumn: check
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition Merge = m
+			mode: import
+			source =
+					let
+					  Source = Table.NestedJoin(Sales, {"ProductID"}, Products, {"ProductID"}, "Products", JoinKind.LeftAnti)
+					in
+					  Source
+
+		annotation PBI_ResultType = Table
+
+	table 'Merge (2)'
+		lineageTag: ff7ca820-f833-4839-a455-8695c366cff6
+
+		column TransactionID
+			dataType: string
+			lineageTag: f78380dd-d1b7-406b-b2e7-c9b14147b1de
+			summarizeBy: none
+			sourceColumn: TransactionID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 66e73b69-068e-4040-a7cf-9c97b60d6326
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 40733915-bfdd-4800-a0e0-0123d3ed23f2
+				defaultHierarchy: LocalDateTable_ebd25e25-3c91-4041-bf57-c604f48b4e4c.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: 9d38d2dd-4038-4a30-82f5-fd230cc1fd15
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 2b483f8f-2d43-4aaa-b244-7b00538568a8
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityDispensed
+			dataType: int64
+			formatString: 0
+			lineageTag: e66bfa88-3289-4387-9b7b-69dd4ba167f4
+			summarizeBy: sum
+			sourceColumn: QuantityDispensed
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: double
+			lineageTag: 45453e62-7771-42e3-9dfb-2d03b3b6393c
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column TotalAmount
+			dataType: double
+			lineageTag: 35250090-7320-4e7b-903b-210d68ef08e0
+			summarizeBy: sum
+			sourceColumn: TotalAmount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: c05b34dd-c197-434c-83ab-928ee4b34a7c
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		column SeniorCitizenID
+			dataType: string
+			lineageTag: e731be0c-6b85-4059-8943-f1e3d26336b3
+			summarizeBy: none
+			sourceColumn: SeniorCitizenID
+
+			annotation SummarizationSetBy = Automatic
+
+		column check
+			dataType: double
+			lineageTag: 95b56067-4178-4c10-9fd9-b7d66ca1a336
+			summarizeBy: sum
+			sourceColumn: check
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition 'Merge (2)' = m
+			mode: import
+			source =
+					let
+					  Source = Table.NestedJoin(Sales, {"BranchID"}, Branches, {"BranchID"}, "Branches", JoinKind.LeftAnti)
+					in
+					  Source
+
+		annotation PBI_ResultType = Table
+
+	table 'Merge (3)'
+		lineageTag: a0376341-094d-414c-aaf0-38a2078553b1
+
+		column TransactionID
+			dataType: string
+			lineageTag: 9ff772e2-6280-495a-a583-abe0155a57e9
+			summarizeBy: none
+			sourceColumn: TransactionID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 3f6c17cd-9ae8-41c9-a1da-001b208b6825
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 15ca9034-9048-405f-955c-524caa902f3c
+				defaultHierarchy: LocalDateTable_e4620eb3-b8ec-41da-b9c0-2012fd947e60.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: 47c3ed9d-9c2b-4174-abe2-33d15bbaa609
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: b2de1199-06c9-4849-a975-36c01914da7d
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityDispensed
+			dataType: int64
+			formatString: 0
+			lineageTag: 6e99dafa-cc71-470d-8437-e6ff6fe1969a
+			summarizeBy: sum
+			sourceColumn: QuantityDispensed
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: double
+			lineageTag: 4d647c78-26d1-4378-b141-a71015b17a19
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column TotalAmount
+			dataType: double
+			lineageTag: a255779d-c0de-4df1-8393-f5fab87650f6
+			summarizeBy: sum
+			sourceColumn: TotalAmount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: 3c68caf6-555a-4281-ab77-eaba890b28cd
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		column SeniorCitizenID
+			dataType: string
+			lineageTag: 9fa20024-411d-4f62-82ba-d55cc87ba984
+			summarizeBy: none
+			sourceColumn: SeniorCitizenID
+
+			annotation SummarizationSetBy = Automatic
+
+		column check
+			dataType: double
+			lineageTag: 08e09256-9542-4b21-bfc1-d105c5eed849
+			summarizeBy: sum
+			sourceColumn: check
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition 'Merge (3)' = m
+			mode: import
+			source =
+					let
+					  Source = Table.NestedJoin(Sales, {"Date"}, Calendar, {"Date"}, "Calendar", JoinKind.LeftOuter)
+					in
+					  Source
+
+		annotation PBI_ResultType = Table
+
+	table Products
+		lineageTag: e25cc250-960e-46b1-8b6b-221393f400b4
+
+		column ProductID
+			dataType: string
+			lineageTag: 17264d62-259c-4702-bb4c-45ea86a4b2ac
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column GenericName
+			dataType: string
+			lineageTag: 1088a24f-085c-4210-af4b-e2df23793c3b
+			summarizeBy: none
+			sourceColumn: GenericName
+
+			annotation SummarizationSetBy = Automatic
+
+		column Category
+			dataType: string
+			lineageTag: b65f5fec-f017-464d-ae3c-83040c457b05
+			summarizeBy: none
+			sourceColumn: Category
+
+			annotation SummarizationSetBy = Automatic
+
+		column IsMaintenance
+			dataType: string
+			lineageTag: 92d4eaa4-7a97-4c2c-9879-4d74c49ab4bc
+			summarizeBy: none
+			sourceColumn: IsMaintenance
+
+			annotation SummarizationSetBy = Automatic
+
+		column ListPrice
+			dataType: double
+			lineageTag: 60d9f9d9-3d95-45d7-bf88-9a05319750e8
+			summarizeBy: sum
+			sourceColumn: ListPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition Products = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(Web.Contents("https://lpulagunaeduph-my.sharepoint.com/personal/lawrencelagdamen_lpulaguna_edu_ph/Documents/PRELIM%20EXAM/BotikaMaligaya_Products.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "Products", Kind = "Sheet"]}[Data],
+					  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+					  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"ProductID", type text}, {"GenericName", type text}, {"Category", type text}, {"IsMaintenance", type text}, {"ListPrice", type number}})
+					in
+					  #"Changed column type"
+
+		annotation PBI_ResultType = Table
+
+	table Sales
+		lineageTag: cd9d3385-3bf3-4967-a28d-453ee9baff8d
+
+		column TransactionID
+			dataType: string
+			lineageTag: df3c2c1c-ee30-4678-97fd-f57200e2a063
+			summarizeBy: none
+			sourceColumn: TransactionID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: 12f5e170-5578-4479-9c39-72c039522b6e
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 49bfb0f4-05e3-433b-af03-a9d99870fb19
+				defaultHierarchy: LocalDateTable_8edd8157-e894-4749-aa12-33749a3b248b.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: c6ca390d-aa26-4b6b-8fb5-c24fd6678851
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 19d67943-3806-4eab-a3de-e51cae9c3ab6
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityDispensed
+			dataType: int64
+			formatString: 0
+			lineageTag: f24778b2-1954-4bbb-a01b-d74cc5b530a3
+			summarizeBy: sum
+			sourceColumn: QuantityDispensed
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: double
+			lineageTag: 1221a40c-e15a-4c2c-8f31-cb7818a2024e
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column TotalAmount
+			dataType: double
+			lineageTag: ab9d4997-7c9f-454d-b9fa-d215eb732c0f
+			summarizeBy: sum
+			sourceColumn: TotalAmount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: b7008249-a599-4ce7-b9f4-ea5b2fe1d9ad
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		column SeniorCitizenID
+			dataType: string
+			lineageTag: e3bef5b9-fcd7-4662-ad80-6375fa7c0605
+			summarizeBy: none
+			sourceColumn: SeniorCitizenID
+
+			annotation SummarizationSetBy = Automatic
+
+		column check
+			dataType: double
+			lineageTag: 54b4dce5-4b73-4dea-8807-67efa0213e69
+			summarizeBy: sum
+			sourceColumn: check
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition Sales = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(Web.Contents("https://lpulagunaeduph-my.sharepoint.com/personal/lawrencelagdamen_lpulaguna_edu_ph/Documents/PRELIM%20EXAM/BotikaMaligaya_Sales_2025_Jun2026..xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "Sales", Kind = "Sheet"]}[Data],
+					  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+					  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"TransactionID", type text}, {"Date", Int64.Type}, {"BranchID", type text}, {"ProductID", type text}, {"QuantityDispensed", Int64.Type}, {"UnitPrice", type number}, {"TotalAmount", type number}, {"PaymentMethod", type text}, {"SeniorCitizenID", type text}}),
+					  #"Date change to ""Date"" data type" = Table.TransformColumnTypes(#"Changed column type", {{"Date", type date}, {"QuantityDispensed", type number}}),
+					  #"Changed column type 1" = Table.TransformColumnTypes(#"Date change to ""Date"" data type", {{"QuantityDispensed", Int64.Type}}),
+					  #"Standardized Branch ID" = Table.ReplaceValue(#"Changed column type 1", "ph", "PH", Replacer.ReplaceText, {"BranchID"}),
+					  #"Standardized BranchID" = Table.ReplaceValue(#"Standardized Branch ID", "PH-", "PH", Replacer.ReplaceText, {"BranchID"}),
+					  #"Added custom" = Table.AddColumn(#"Standardized BranchID", "check", each [TotalAmount]/([QuantityDispensed]*[UnitPrice])),
+					  #"Changed column type 2" = Table.TransformColumnTypes(#"Added custom", {{"check", type number}}),
+					  #"Filtered rows" = Table.SelectRows(#"Changed column type 2", each ([check] = 0.9999999999999998 or [check] = 0.9999999999999999 or [check] = 1 or [check] = 1.0000000000000002))
+					in
+					  #"Filtered rows"
+
+		annotation PBI_ResultType = Table
+
+	table SalesJul2026
+		lineageTag: 40f00847-55b0-44bc-8351-c57d53cb7027
+
+		column TransactionID
+			dataType: string
+			lineageTag: bfc9143e-048c-43f7-8af8-f5b6d0f09719
+			summarizeBy: none
+			sourceColumn: TransactionID
+
+			annotation SummarizationSetBy = Automatic
+
+		column Date
+			dataType: dateTime
+			formatString: Long Date
+			lineageTag: e735ff9b-0934-4e3f-a407-a7747393e4cb
+			summarizeBy: none
+			sourceColumn: Date
+
+			variation Variation
+				isDefault
+				relationship: 95eef1d2-bb5b-494b-97cf-02389270ef86
+				defaultHierarchy: LocalDateTable_9f34addc-90b6-4a9a-b56c-c4579d8e6f56.'Date Hierarchy'
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation UnderlyingDateTimeDataType = Date
+
+		column BranchID
+			dataType: string
+			lineageTag: b0c4bf98-a39c-47c9-ab2c-43a8aa893d05
+			summarizeBy: none
+			sourceColumn: BranchID
+
+			annotation SummarizationSetBy = Automatic
+
+		column ProductID
+			dataType: string
+			lineageTag: 2f89f132-65b9-4dea-b86b-45d437f74185
+			summarizeBy: none
+			sourceColumn: ProductID
+
+			annotation SummarizationSetBy = Automatic
+
+		column QuantityDispensed
+			dataType: int64
+			formatString: 0
+			lineageTag: 768812bb-df1b-48b1-9bb8-64b5f0413bfa
+			summarizeBy: sum
+			sourceColumn: QuantityDispensed
+
+			annotation SummarizationSetBy = Automatic
+
+		column UnitPrice
+			dataType: double
+			lineageTag: fb679895-3049-4208-a4f0-0261bd3b227f
+			summarizeBy: sum
+			sourceColumn: UnitPrice
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column TotalAmount
+			dataType: double
+			lineageTag: 0fac37a8-07bb-4f1c-b882-190ea51bbb92
+			summarizeBy: sum
+			sourceColumn: TotalAmount
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		column PaymentMethod
+			dataType: string
+			lineageTag: cebb9ea7-e4ff-4a9b-9edc-f1c54eb6a940
+			summarizeBy: none
+			sourceColumn: PaymentMethod
+
+			annotation SummarizationSetBy = Automatic
+
+		column SeniorCitizenID
+			dataType: string
+			lineageTag: 27c1cdd6-a153-456d-8741-fa2e7ddad736
+			summarizeBy: none
+			sourceColumn: SeniorCitizenID
+
+			annotation SummarizationSetBy = Automatic
+
+		column check
+			dataType: double
+			lineageTag: 60a28f3e-f6b2-430f-9e2f-9d5c129b963b
+			summarizeBy: sum
+			sourceColumn: check
+
+			annotation SummarizationSetBy = Automatic
+
+			annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+		partition SalesJul2026 = m
+			mode: import
+			source =
+					let
+					  Source = Excel.Workbook(Web.Contents("https://lpulagunaeduph-my.sharepoint.com/personal/lawrencelagdamen_lpulaguna_edu_ph/Documents/PRELIM%20EXAM/BotikaMaligaya_Sales_Jul2026.xlsx"), null, true),
+					  #"Navigation 1" = Source{[Item = "SalesJul2026", Kind = "Sheet"]}[Data],
+					  #"Promoted headers" = Table.PromoteHeaders(#"Navigation 1", [PromoteAllScalars = true]),
+					  #"Changed column type" = Table.TransformColumnTypes(#"Promoted headers", {{"TransactionID", type text}, {"Date", Int64.Type}, {"BranchID", type text}, {"ProductID", type text}, {"QuantityDispensed", Int64.Type}, {"UnitPrice", type number}, {"TotalAmount", type number}, {"PaymentMethod", type text}, {"SeniorCitizenID", type text}}),
+					  #"Appended query" = Table.Combine({#"Changed column type", Sales}),
+					  #"Changed column type 1" = Table.TransformColumnTypes(#"Appended query", {{"Date", type date}, {"BranchID", type text}})
+					in
+					  #"Changed column type 1"
+
+		annotation PBI_ResultType = Table
+
